@@ -18,8 +18,29 @@
 *
 */
 
-var rockPaperScissors = function (
-) {
-  // TODO: your solution here
+var rockPaperScissors = function (rounds) {
+  rounds = Math.max(rounds || 3, 3);
+
+  var moves = ['R', 'P', 'S'];
+
+  var combos = [];
+
+  var playRounds = function (playedSoFar) {
+    playedSoFar = playedSoFar || '';
+
+    if (playedSoFar.length === rounds) {
+      combos.push(playedSoFar);
+      return;
+    }
+
+    moves.forEach(function (move) {
+      playRounds(playedSoFar + move);
+    });
+  };
+
+  playRounds();
+
+  return combos;
 };
 
+module.exports = rockPaperScissors;
