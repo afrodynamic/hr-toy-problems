@@ -43,4 +43,8 @@ var rockPaperScissors = function (rounds) {
   return combos;
 };
 
-module.exports = rockPaperScissors;
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = rockPaperScissors;
+} else {
+  window.rockPaperScissors = rockPaperScissors;
+}
