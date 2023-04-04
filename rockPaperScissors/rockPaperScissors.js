@@ -18,7 +18,7 @@
 *
 */
 
-var rockPaperScissors = function (rounds) {
+var rockPaperScissors = function(rounds) {
   var rounds = rounds || 3;
 
   if (rounds < 0) {
@@ -27,7 +27,7 @@ var rockPaperScissors = function (rounds) {
 
   var combos = [];
 
-  var playRounds = function (playedSoFar) {
+  var playRounds = function(playedSoFar) {
     playedSoFar = playedSoFar || '';
 
     if (playedSoFar.length === rounds) {
@@ -35,7 +35,7 @@ var rockPaperScissors = function (rounds) {
       return;
     }
 
-    ['R', 'P', 'S'].forEach(function (currentPlay) {
+    ['R', 'P', 'S'].forEach(function(currentPlay) {
       playRounds(playedSoFar + currentPlay);
     });
   };
