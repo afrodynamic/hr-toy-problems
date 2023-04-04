@@ -19,9 +19,11 @@
 */
 
 var rockPaperScissors = function (rounds) {
-  rounds = Math.max(rounds || 3, 3);
+  var rounds = rounds || 3;
 
-  var moves = ['R', 'P', 'S'];
+  if (rounds < 0) {
+    return [];
+  }
 
   var combos = [];
 
@@ -33,14 +35,17 @@ var rockPaperScissors = function (rounds) {
       return;
     }
 
-    moves.forEach(function (move) {
-      playRounds(playedSoFar + move);
+    ['R', 'P', 'S'].forEach(function (currentPlay) {
+      playRounds(playedSoFar + currentPlay);
     });
   };
 
   playRounds();
-
   return combos;
 };
 
-module.exports = rockPaperScissors;
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = rockPaperScissors;
+} else {
+  window.rockPaperScissors = rockPaperScissors;
+}
