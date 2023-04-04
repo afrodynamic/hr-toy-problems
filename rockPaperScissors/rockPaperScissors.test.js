@@ -124,8 +124,14 @@ describe.only('rockPaperScissors', function () {
   });
 
   test('Should handle cases where the number of rounds is invalid', function () {
-    expect(rockPaperScissors(2)).toEqual(threeRoundOutput);
     expect(rockPaperScissors(0)).toEqual(threeRoundOutput);
-    expect(rockPaperScissors(-1)).toEqual(threeRoundOutput);
+    expect(rockPaperScissors(-1)).toEqual([]);
+  });
+
+  test('Should handle cases where the number of rounds is under 3 and valid', function () {
+    var twoRoundOutput = ['RR', 'RP', 'RS', 'PR', 'PP', 'PS', 'SR', 'SP', 'SS'];
+    var oneRoundOutput = ['R', 'P', 'S'];
+    expect(rockPaperScissors(2)).toEqual(twoRoundOutput);
+    expect(rockPaperScissors(1)).toEqual(oneRoundOutput);
   });
 });
