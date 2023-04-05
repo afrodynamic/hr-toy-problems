@@ -11,26 +11,22 @@
 */
 
 var evenOccurrence = function (arr) {
-  var count = {};
-  var index = {};
+  var count = new Map();
+  var index = new Map();
 
   for (var i = 0; i < arr.length; i++) {
     var item = arr[i];
 
-    count[item] = (count[item] || 0) + 1;
+    count.set(item, (count.get(item) || 0) + 1);
 
-    if (count[item] === 1) {
-      index[item] = i;
+    if (count.get(item) === 1) {
+      index.set(item, i);
     }
   }
 
-  for (var key in count) {
-    if (
-      count.hasOwnProperty(key) &&
-      count[key] % 2 === 0 &&
-      index[key] !== undefined
-    ) {
-      return arr[index[key]];
+  for (var [key, value] of count) {
+    if (value % 2 === 0 && index.has(key)) {
+      return key;
     }
   }
 

@@ -8,4 +8,10 @@ describe.only('evenOccurrence', function () {
   test('Should return 4 for the the array [1, 7, 2, 4, 5, 6, 8, 9, 6, 4]', function () {
     expect(evenOccurrence([1, 7, 2, 4, 5, 6, 8, 9, 6, 4])).toEqual(4);
   });
+
+  test('Should handle strings', function () {
+    expect(evenOccurrence(['meow', 1, 1, 'meow', 'meow', 'meow'])).toEqual(
+      'meow'
+    );
+  });
 });
