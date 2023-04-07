@@ -26,12 +26,13 @@ var makeHashTable = function() {
   hashTable.storage = [];
   hashTable.storageLimit = 4;
   hashTable.size = 0;
+  hashTable.isResizing = false;
 
   for (var i = 0; i < hashTable.storageLimit; i++) {
     hashTable.storage.push([]);
   }
 
-  var insertIntoBucket = function(hashTable, bucket, k, v, isResize) {
+  var insertIntoBucket = function(hashTable, bucket, k, v, isResizing) {
     var found = false;
 
     for (var i = 0; i < bucket.length; i++) {
@@ -47,13 +48,13 @@ var makeHashTable = function() {
     if (!found) {
       bucket.push([k, v]);
 
-      if (!isResize) {
+      if (!hashTable.isResizing) {
         hashTable.size++;
       }
     }
   };
 
-  hashTable.insert = function(k, v, isResize) {
+  hashTable.insert = function(k, v) {
     var index = getIndexBelowMaxForKey(k, this.storageLimit);
     var bucket = this.storage[index];
 
@@ -62,7 +63,7 @@ var makeHashTable = function() {
       this.storage[index] = bucket;
     }
 
-    insertIntoBucket(this, bucket, k, v, isResize);
+    insertIntoBucket(this, bucket, k, v);
 
     if (hashTable.needsResize()) {
       hashTable.resize();
@@ -116,6 +117,7 @@ var makeHashTable = function() {
   };
 
   hashTable.resize = function() {
+    hashTable.isResizing = true;
     var newLimit = this.storageLimit;
 
     if (this.size / this.storageLimit <= 0.25) {
@@ -140,14 +142,14 @@ var makeHashTable = function() {
       if (bucket !== undefined) {
         for (var i = 0; i < bucket.length; i++) {
           var tuple = bucket[i];
-
-          self.insert(tuple[0], tuple[1], true);
+          self.insert(tuple[0], tuple[1]);
         }
       }
     });
 
     this.size = oldSize;
     this.storageLimit = newLimit;
+    hashTable.isResizing = false;
   };
 
   hashTable.needsResize = function() {
