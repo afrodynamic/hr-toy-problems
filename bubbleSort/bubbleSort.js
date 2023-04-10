@@ -34,5 +34,30 @@
 
 
 var bubbleSort = function(array) {
-  // Your code here.
+  var len = array.length;
+  var swapped;
+
+  do {
+    swapped = false;
+
+    for (var i = 0; i < len - 1; i++) {
+      if (array[i] > array[i + 1]) {
+        var temp = array[i];
+        array[i] = array[i + 1];
+        array[i + 1] = temp;
+        swapped = true;
+      }
+    }
+
+    len--;
+  } while (swapped);
+
+  return array;
 };
+
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = bubbleSort;
+} else {
+  window.bubbleSort = bubbleSort;
+}
