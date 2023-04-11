@@ -47,7 +47,7 @@ var testingTransform = function(array) {
   });
 
   for (var i = 0; i < transform.length; i++) {
-    transform[i].order = i;
+    transform[i].i = i;
     delete transform[i].index;
   }
 
@@ -64,8 +64,8 @@ var insertionSort = function(array, comparator) {
       return 1;
     }
 
-    if (a.order !== undefined && b.order !== undefined) {
-      return a.order - b.order;
+    if (a.i !== undefined && b.i !== undefined) {
+      return a.i - b.i;
     }
     return 0;
   };
@@ -82,9 +82,9 @@ var insertionSort = function(array, comparator) {
     array[j + 1] = temp;
 
     if (j >= 0 && comparator(temp, array[j]) === 0) {
-      var tempOrder = temp.order;
-      temp.order = array[j].order;
-      array[j].order = tempOrder;
+      var tempi = temp.i;
+      temp.i = array[j].i;
+      array[j].i = tempi;
     }
   }
 
