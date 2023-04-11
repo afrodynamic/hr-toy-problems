@@ -39,16 +39,7 @@ var testingTransform = function(array) {
   var transform = [];
 
   for (var i = 0; i < array.length; i++) {
-    transform.push({value: array[i], index: i});
-  }
-
-  transform.sort(function(a, b) {
-    return a.value - b.value || a.index - b.index;
-  });
-
-  for (var i = 0; i < transform.length; i++) {
-    transform[i].i = i;
-    delete transform[i].index;
+    transform.push({value: array[i], i: i});
   }
 
   return transform;
@@ -67,6 +58,7 @@ var insertionSort = function(array, comparator) {
     if (a.i !== undefined && b.i !== undefined) {
       return a.i - b.i;
     }
+
     return 0;
   };
 
