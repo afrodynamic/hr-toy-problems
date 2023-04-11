@@ -37,16 +37,64 @@
 // It will transform an array of numbers into an array of valid objects.
 var testingTransform = function(array) {
   var transform = [];
-  
+
   for (var i = 0; i < array.length; i++) {
-    transform.push({value: array[i], i: i});
+    transform.push({value: array[i], index: i});
+  }
+
+  transform.sort(function(a, b) {
+    return a.value - b.value || a.index - b.index;
+  });
+
+  for (var i = 0; i < transform.length; i++) {
+    transform[i].order = i;
+    delete transform[i].index;
   }
 
   return transform;
 };
 
-var insertionSort = function(array
-) {
-  // Your code goes here. Feel free to add helper functions if needed.
+var insertionSort = function(array, comparator) {
+  comparator = comparator || function(a, b) {
+    if (a.value < b.value) {
+      return -1;
+    }
+
+    if (a.value > b.value) {
+      return 1;
+    }
+
+    if (a.order !== undefined && b.order !== undefined) {
+      return a.order - b.order;
+    }
+    return 0;
+  };
+
+  for (var i = 1; i < array.length; i++) {
+    var j = i - 1;
+    var temp = array[i];
+
+    while (j >= 0 && comparator(temp, array[j]) < 0) {
+      array[j + 1] = array[j];
+      j--;
+    }
+
+    array[j + 1] = temp;
+
+    if (j >= 0 && comparator(temp, array[j]) === 0) {
+      var tempOrder = temp.order;
+      temp.order = array[j].order;
+      array[j].order = tempOrder;
+    }
+  }
+
   return array;
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports.insertionSort = insertionSort;
+  module.exports.testingTransform = testingTransform;
+} else {
+  window.insertionSort = insertionSort;
+  window.testingTransform = testingTransform;
+}
