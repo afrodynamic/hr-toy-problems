@@ -47,37 +47,25 @@ var testingTransform = function(array) {
 
 var insertionSort = function(array, comparator) {
   comparator = comparator || function(a, b) {
-    if (a.value < b.value) {
-      return -1;
+      if (a.value < b.value) {
+        return -1;
+      } else if (a.value > b.value) {
+        return 1;
+      } else {
+        return a.i - b.i;
+      }
     }
-
-    if (a.value > b.value) {
-      return 1;
-    }
-
-    if (a.i !== undefined && b.i !== undefined) {
-      return a.i - b.i;
-    }
-
-    return 0;
-  };
 
   for (var i = 1; i < array.length; i++) {
+    var current = array[i];
     var j = i - 1;
-    var temp = array[i];
 
-    while (j >= 0 && comparator(temp, array[j]) < 0) {
+    while (j >= 0 && comparator(array[j], current) > 0) {
       array[j + 1] = array[j];
       j--;
     }
 
-    array[j + 1] = temp;
-
-    if (j >= 0 && comparator(temp, array[j]) === 0) {
-      var tempi = temp.i;
-      temp.i = array[j].i;
-      array[j].i = tempi;
-    }
+    array[j + 1] = current;
   }
 
   return array;

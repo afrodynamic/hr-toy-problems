@@ -73,6 +73,21 @@ describe('insertionSort', () => {
       { value: 2, i: 1 },
       { value: 1, i: 0 },
     ]);
+
+    var array = testingTransform([0, 1, 2, 3, 4, 5]);
+    insertionSort(array, function (a, b) {
+      var aIsOdd = a.value & 1;
+      var bIsOdd = b.value & 1;
+      return aIsOdd - bIsOdd;
+    });
+    expect(array).toEqual([
+      { value: 0, i: 0 },
+      { value: 2, i: 2 },
+      { value: 4, i: 4 },
+      { value: 1, i: 1 },
+      { value: 3, i: 3 },
+      { value: 5, i: 5 },
+    ]);
   });
 
   it('should sort intuitively if no comparator is passed', () => {
