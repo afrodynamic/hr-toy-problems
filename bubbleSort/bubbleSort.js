@@ -31,8 +31,6 @@
 */
 
 // Feel free to add helper functions if needed.
-
-
 var bubbleSort = function(array) {
   var len = array.length;
   var swapped;
@@ -54,7 +52,6 @@ var bubbleSort = function(array) {
 
   return array;
 };
-
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
   module.exports = bubbleSort;
