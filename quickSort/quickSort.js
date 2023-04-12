@@ -11,7 +11,7 @@
  */
 
 
-var quickSort = function(array) {
+var quicksort = function(array) {
   if (array.length <= 1) {
     return array;
   }
@@ -28,12 +28,12 @@ var quickSort = function(array) {
     }
   }
 
-  return quickSort(left).concat([pivot], quickSort(right));
+  return quicksort(left).concat([pivot], quicksort(right));
 };
 
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-  module.exports = quickSort;
+  module.exports = quicksort;
 } else {
-  window.quickSort = quickSort;
+  window.quickSort = quicksort;
 }
