@@ -84,7 +84,7 @@
  * Extra credit:
  *   One of the benefits of mergesort over e.g. quicksort is that it is "stable"; assuming the merge
  *   step is properly implemented, list items with the same value will remain in the same order they were
- *   in in the input. (This is academic in the case of sorting integers, but it is an important consideration
+ *   in the input. (This is academic in the case of sorting integers, but it is an important consideration
  *   when sorting more complex objects.) Is your implementation a stable sort?
  *
  * Extra credit:
@@ -98,5 +98,45 @@
 
 
 var mergeSort = function(array) {
-  // Your code here.
+  if (array.length < 2) {
+    return array;
+  }
+
+  var middleIndex = Math.floor(array.length / 2);
+  var leftHalf = array.slice(0, middleIndex);
+  var rightHalf = array.slice(middleIndex);
+
+  var sortedLeftHalf = mergeSort(leftHalf);
+  var sortedRightHalf = mergeSort(rightHalf);
+
+  var mergedArray = [];
+  var leftIndex = 0;
+  var rightIndex = 0;
+
+  while (
+    leftIndex < sortedLeftHalf.length &&
+    rightIndex < sortedRightHalf.length
+  ) {
+    var leftElement = sortedLeftHalf[leftIndex];
+    var rightElement = sortedRightHalf[rightIndex];
+
+    if (leftElement < rightElement) {
+      mergedArray.push(leftElement);
+      leftIndex++;
+    } else {
+      mergedArray.push(rightElement);
+      rightIndex++;
+    }
+  }
+
+  var remainingLeft = sortedLeftHalf.slice(leftIndex);
+  var remainingRight = sortedRightHalf.slice(rightIndex);
+
+  return mergedArray.concat(remainingLeft).concat(remainingRight);
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = mergeSort;
+} else {
+  window.mergeSort = mergeSort;
+}
