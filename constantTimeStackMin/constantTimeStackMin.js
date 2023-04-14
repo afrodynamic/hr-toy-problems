@@ -33,8 +33,9 @@ var Stack = function() {
   // remove an item from the top of the stack
   this.pop = function() {
     if (stack[stack.length - 1] === minValue) {
-      minValue = undefined;
+      minValue = Math.min(...stack.slice(0, stack.length - 1));
     }
+
     return stack.pop();
   };
 

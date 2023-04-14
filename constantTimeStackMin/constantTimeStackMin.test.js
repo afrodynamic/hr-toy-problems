@@ -25,12 +25,20 @@ describe.only('constantTimeStackMin', function() {
   });
 
   test('Should handle min method correctly', function() {
-    stack.push(4);
-    stack.push(3);
-    expect(stack.min()).toEqual(3);
-    stack.push(3);
-    stack.push(2);
-    stack.push(2);
-    expect(stack.min()).toEqual(2);
+    stack.push(200);
+    expect(stack.min()).toBe(200);
+
+    stack.push(100);
+    expect(stack.min()).toBe(100);
+
+    stack.pop();
+    expect(stack.min()).toBe(200);
+
+    stack.push(50);
+    stack.push(50);
+    expect(stack.min()).toBe(50);
+
+    stack.pop();
+    expect(stack.min()).toBe(50);
   });
 });
