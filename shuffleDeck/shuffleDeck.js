@@ -32,7 +32,12 @@
  */
 
 var shuffleDeck = function(deck) {
-  // Your code here
+  for (var i = deck.length - 1; i > 0; i--) {
+    var randomIndex = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[randomIndex]] = [deck[randomIndex], deck[i]];
+  }
+
+  return deck;
 };
 
 // Ordered deck generator provided for your testing convenience
@@ -50,3 +55,13 @@ var orderedDeck = function() {
 
   return deck;
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = {
+    shuffleDeck: shuffleDeck,
+    orderedDeck: orderedDeck
+  };
+} else {
+  window.shuffleDeck = shuffleDeck;
+  window.orderedDeck = orderedDeck;
+}
