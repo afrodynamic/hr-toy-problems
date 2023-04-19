@@ -13,5 +13,28 @@
   */
 
 var allAnagrams = function(string) {
-  // Your code here.
+  const result = new Set();
+
+  if (string.length === 1) {
+    result.add(string);
+    return result;
+  }
+
+  for (let i = 0; i < string.length; i++) {
+    const char = string[i];
+    const remaining = string.slice(0, i) + string.slice(i + 1);
+    const permutations = allAnagrams(remaining);
+
+    for (let perm of permutations) {
+      result.add(char + perm);
+    }
+  }
+
+  return Array.from(result);
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = allAnagrams;
+} else {
+  window.allAnagrams = allAnagrams;
+}
