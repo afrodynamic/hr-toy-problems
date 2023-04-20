@@ -25,7 +25,23 @@ makeChange(2) === 2
 */
 
 var makeChange = function(total) {
+  var coins = [1, 2, 5, 10, 20, 50, 100, 200];
+  var ways = Array(total + 1).fill(0);
+  ways[0] = 1;
 
+  for (var i = 0; i < coins.length; i++) {
+    var coin = coins[i];
+
+    for (var j = coin; j <= total; j++) {
+      ways[j] += ways[j - coin];
+    }
+  }
+
+  return ways[total];
 };
 
-
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = makeChange;
+} else {
+  window.makeChange = makeChange;
+}
