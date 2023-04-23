@@ -18,15 +18,10 @@
  */
 
 var powerSet = function(str) {
-  const set = new Set([str]);
-
-  for (let i = 0; i < str.length; i++) {
-    set.add(str[i]);
-  }
+  const set = new Set();
 
   const recurse = (index, subset) => {
-    const sortedSubset = subset.split('').sort().join('');
-    set.add(sortedSubset);
+    set.add(subset.split('').sort().join(''));
 
     for (let i = index; i < str.length; i++) {
       recurse(i + 1, subset + str[i]);
@@ -35,7 +30,7 @@ var powerSet = function(str) {
 
   recurse(0, '');
 
-  return Array.from(set).sort();
+  return Array.from(set);
 };
 
 
