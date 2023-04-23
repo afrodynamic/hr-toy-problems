@@ -11,7 +11,7 @@ describe('powerSet', function() {
   });
 
   it('should remove duplicate sets from the output array', () => {
-    expect(powerSet('aba')).toEqual(expect.arrayContaining(['', 'a', 'b', 'ab']));
-    expect(powerSet('bbbaaa')).toEqual(expect.arrayContaining(['', 'a', 'b', 'ab']));
+    expect(powerSet('aba')).toEqual(['', 'a', 'ab', 'b']);
+    expect(powerSet('bbbaaa')).toEqual(['', 'b', 'ab', 'a']);
   });
 });

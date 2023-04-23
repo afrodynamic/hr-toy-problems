@@ -21,6 +21,7 @@ var powerSet = function(str) {
   const set = new Set();
 
   const recurse = (index, subset) => {
+    subset = Array.from(new Set(subset.split(''))).join('');
     set.add(subset.split('').sort().join(''));
 
     for (let i = index; i < str.length; i++) {
