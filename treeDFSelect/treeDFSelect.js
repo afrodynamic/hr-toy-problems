@@ -36,9 +36,22 @@ var Tree = function(value) {
 };
 
 Tree.prototype.DFSelect = function(filter) {
+  const results = [];
+
+  const traverse = (node, depth) => {
+    if (filter(node.value, depth)) {
+      results.push(node.value);
+    }
+
+    for (let i = 0; i < node.children.length; i++) {
+      traverse(node.children[i], depth + 1);
+    }
+  };
+
+  traverse(this, 0);
+
+  return results;
 };
-
-
 
 /**
  * You shouldn't need to change anything below here, but feel free to look.
@@ -93,3 +106,9 @@ Tree.prototype.removeChild = function(child) {
     throw new Error('That node is not an immediate child of this tree');
   }
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = Tree;
+} else {
+  window.Tree = Tree;
+}
