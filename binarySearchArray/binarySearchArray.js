@@ -10,6 +10,28 @@
  * console.log(index); // null
  */
 
-var binarySearch = function (array, target) {
+const binarySearch = (array, target) => {
+  let left = 0;
+  let right = array.length - 1;
+  let mid;
+
+  while (left <= right) {
+    mid = Math.floor((left + right) / 2);
+
+    if (array[mid] === target) {
+      return mid;
+    } else if (array[mid] < target) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
+    }
+  }
+
+  return null;
 };
 
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = binarySearch;
+} else {
+  window.Tree = binarySearch;
+}
