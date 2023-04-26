@@ -33,5 +33,5 @@ const binarySearch = (array, target) => {
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
   module.exports = binarySearch;
 } else {
-  window.Tree = binarySearch;
+  window.binarySearch = binarySearch;
 }
