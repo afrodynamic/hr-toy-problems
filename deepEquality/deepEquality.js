@@ -12,4 +12,29 @@
   *
   */
 var deepEquals = function(apple, orange) {
+  if (typeof apple === 'object' && typeof orange === 'object') {
+    var appleKeys = Object.keys(apple);
+    var orangeKeys = Object.keys(orange);
+
+    if (appleKeys.length !== orangeKeys.length) {
+      return false;
+    }
+
+    for (var i = 0; i < appleKeys.length; i++) {
+      var key = appleKeys[i];
+      if (!deepEquals(apple[key], orange[key])) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  return apple === orange;
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = deepEquals;
+} else {
+  window.deepEquals = deepEquals;
+}
