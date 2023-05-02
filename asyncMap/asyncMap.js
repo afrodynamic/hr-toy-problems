@@ -38,5 +38,26 @@
  */
 
 
-var asyncMap = function(tasks, callback) {
+const asyncMap = (tasks, callback) => {
+  const results = [];
+
+  let count = 0;
+
+  tasks.forEach((task, index) => {
+    task((result) => {
+      results[index] = result;
+
+      count++;
+
+      if (count === tasks.length) {
+        callback(results);
+      }
+    });
+  });
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = asyncMap;
+} else {
+  window.asyncMap = asyncMap;
+}
