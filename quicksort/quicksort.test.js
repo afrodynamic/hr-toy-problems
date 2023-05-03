@@ -1,4 +1,4 @@
-var quicksort = require('./quickSort.js');
+var quicksort = require('./quicksort.js');
 
 describe('quicksort', () => {
   it('should sort an array in ascending order', () => {
