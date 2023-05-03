@@ -23,9 +23,13 @@
  *
 */
 
-var bind = function(
-) {
-  // TODO: Your code here
+const bind = function(func, context) {
+  const args = Array.prototype.slice.call(arguments, 2);
+
+  return function() {
+    const newArgs = Array.prototype.slice.call(arguments);
+    return func.apply(context, args.concat(newArgs));
+  };
 };
 
 /*
@@ -53,7 +57,16 @@ var bind = function(
  *
 */
 
-Function.prototype.bind = function(
-) {
-  // TODO: Your code here
+Function.prototype.bind = function(context, ...args) {
+  const func = this;
+  return function(...newArgs) {
+    return func.call(context, ...args, ...newArgs);
+  };
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = {bind: bind, bindPrototype: Function.prototype.bind};
+} else {
+  window.bind = bind;
+  window.bindPrototype = Function.prototype.bind;
+}
