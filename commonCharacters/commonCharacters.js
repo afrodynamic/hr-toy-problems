@@ -12,6 +12,33 @@
 
 
 
-var commonCharacters = function(string1, string2) {
-  // TODO: Your code here!
+var commonCharacters = function() {
+  var args = Array.prototype.slice.call(arguments);
+  var result = '';
+  var usedChars = {};
+  var firstString = args[0];
+
+  for (var i = 0; i < firstString.length; i++) {
+    var char = firstString[i];
+
+    if (char === ' ' || usedChars[char]) {
+      continue;
+    }
+
+    if (args.every(function (str) {
+      return str.indexOf(char) !== -1;
+    })) {
+      result += char;
+      usedChars[char] = true;
+    }
+  }
+
+  return result;
 };
+
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = commonCharacters;
+} else {
+  window.commonCharacters = commonCharacters;
+}
