@@ -10,7 +10,7 @@
  * parent of the 3rd and 4th nodes, and the 2nd node will be the parent of the 5th and
  * 6th nodes. In a specific kind of binary heap, the binary min heap, every node is
  * less than its immediate children:
- * 
+ *
  *          0
  *     1         2
  *   3   4     5   6
@@ -67,21 +67,95 @@
 // and then iteratively returns the root of the `BinaryHeap` until its empty, thus returning a sorted array.
 
 
-function BinaryHeap () {
+function BinaryHeap (compareFn = (a, b) => a < b) {
   this._heap = [];
-  // this compare function will result in a minHeap, use it to make comparisons between nodes in your solution
-  this._compare = function (i, j) { return i < j };
+
+  this._compare = compareFn;
 }
 
-// This function works just fine and shouldn't be modified
+BinaryHeap.prototype._bubbleUp = function (index) {
+  const node = this._heap[index];
+
+  while (index > 0) {
+    const parentIndex = Math.floor((index - 1) / 2);
+    const parent = this._heap[parentIndex];
+    if (this._compare(node, parent)) {
+      this._heap[parentIndex] = node;
+      this._heap[index] = parent;
+      index = parentIndex;
+    } else {
+      break;
+    }
+  }
+}
+
 BinaryHeap.prototype.getRoot = function () {
   return this._heap[0];
 }
 
 BinaryHeap.prototype.insert = function (value) {
-  // TODO: Your code here
+  this._heap.push(value);
+  this._bubbleUp(this._heap.length - 1);
 }
 
+BinaryHeap.prototype._sinkDown = function(index) {
+  const length = this._heap.length;
+  const node = this._heap[index];
+  while (true) {
+    const leftChildIndex = 2 * index + 1;
+    const rightChildIndex = 2 * index + 2;
+    let swapIndex = null;
+    if (leftChildIndex < length) {
+      const leftChild = this._heap[leftChildIndex];
+      if (this._compare(leftChild, node)) {
+        swapIndex = leftChildIndex;
+      }
+    }
+    if (rightChildIndex < length) {
+      const rightChild = this._heap[rightChildIndex];
+      if (
+        (swapIndex === null && this._compare(rightChild, node)) ||
+        (swapIndex !== null && this._compare(rightChild, this._heap[swapIndex]))
+      ) {
+        swapIndex = rightChildIndex;
+      }
+    }
+    if (swapIndex === null) {
+      break;
+    }
+    this._heap[index] = this._heap[swapIndex];
+    this._heap[swapIndex] = node;
+    index = swapIndex;
+  }
+};
+
 BinaryHeap.prototype.removeRoot = function () {
-  // TODO: Your code here
+  const root = this._heap[0];
+  const lastNode = this._heap.pop();
+  if (this._heap.length > 0) {
+    this._heap[0] = lastNode;
+    this._sinkDown(0);
+  }
+  return root;
+}
+
+BinaryHeap.prototype.heapSort = function (array, compareFn = this._compare) {
+  const heap = new BinaryHeap(compareFn);
+  const result = [];
+
+  for (let i = 0; i < array.length; i++) {
+    heap.insert(array[i]);
+  }
+
+  while (heap._heap.length > 0) {
+    result.push(heap.removeRoot());
+  }
+
+  return result;
+}
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = BinaryHeap;
+} else {
+  window.BinaryHeap = BinaryHeap;
 }
