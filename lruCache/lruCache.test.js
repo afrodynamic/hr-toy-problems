@@ -38,4 +38,21 @@ describe('LRUCache', () => {
 
     expect(cache.get('item1')).toBe(5);
   });
+
+  test('should remove items in LRU order when populated over its limit', () => {
+    const cache = new LRUCache(10);
+
+    for (var i = 0; i < 8; i++) {
+      cache.set(i, i);
+    }
+
+    cache.get(0);
+
+    for (i = 8; i < 14; i++) {
+      cache.set(i, i);
+    }
+
+    expect(cache.get(0)).toBe(0);
+    expect(cache.get(1)).toBe(null);
+  })
 });
