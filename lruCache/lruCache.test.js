@@ -42,7 +42,7 @@ describe('LRUCache', () => {
   test('should remove items in LRU order when populated over its limit', () => {
     const cache = new LRUCache(10);
 
-    for (var i = 0; i < 8; i++) {
+    for (let i = 0; i < 8; i++) {
       cache.set(i, i);
     }
 
@@ -54,5 +54,15 @@ describe('LRUCache', () => {
 
     expect(cache.get(0)).toBe(0);
     expect(cache.get(1)).toBe(null);
+  })
+
+  test('should contain exactly limit items when populated over its limit', () => {
+    const cache = new LRUCache(10);
+
+    for (let i = 0; i < 15; i++) {
+      cache.set(i, i);
+    }
+
+    expect(cache.size()).toBe(10);
   })
 });

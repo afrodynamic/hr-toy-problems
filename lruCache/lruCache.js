@@ -32,7 +32,7 @@
 
 var LRUCache = function (limit) {
   this.limit = limit;
-  this.size = 0;
+  this.length = 0;
   this.cache = {};
   this.list = new List();
 };
@@ -43,7 +43,7 @@ var LRUCacheItem = function (val, key) {
 };
 
 LRUCache.prototype.size = function () {
-  return this.size;
+  return this.length;
 };
 
 LRUCache.prototype.get = function (key) {
@@ -64,13 +64,13 @@ LRUCache.prototype.set = function (key, val) {
   } else {
     var node = this.list.unshift(new LRUCacheItem(val, key));
     this.cache[key] = { val: val, node: node };
-    this.size++;
+    this.length++;
 
-    if (this.size > this.limit) {
+    if (this.length > this.limit) {
       var lastNode = this.list.tail;
       this.list.pop();
       delete this.cache[lastNode.val.key];
-      this.size--;
+      this.length--;
     }
   }
 };
