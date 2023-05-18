@@ -31,21 +31,49 @@
  */
 
 var LRUCache = function (limit) {
+  this.limit = limit;
+  this.size = 0;
+  this.cache = {};
+  this.list = new List();
 };
 
 var LRUCacheItem = function (val, key) {
+  this.val = val;
+  this.key = key;
 };
 
-LRUCache.prototype.size = function () {
+LRUCache.prototype.getSize = function () {
+  return this.size;
 };
 
 LRUCache.prototype.get = function (key) {
+  if (this.cache[key]) {
+    var item = this.cache[key];
+    this.list.moveToFront(item);
+    return item.val;
+  }
+
+  return null;
 };
 
 LRUCache.prototype.set = function (key, val) {
+  if (this.cache[key]) {
+    var item = this.cache[key];
+    item.val = val;
+    this.list.moveToFront(item);
+  } else {
+    var newItem = new LRUCacheItem(val, key);
+    this.cache[key] = newItem;
+    this.list.unshift(newItem);
+    this.size++;
+
+    if (this.getSize() > this.limit) {
+      var lastItem = this.list.pop();
+      delete this.cache[lastItem.key];
+      this.size--;
+    }
+  }
 };
-
-
 
 var List = function () {
   this.head = null;
@@ -60,84 +88,95 @@ var ListNode = function (prev, val, next) {
 
 // Insert at the head of the list.
 List.prototype.unshift = function (val) {
-  // Empty list
-  if (this.head === null && this.tail === null) {
-    this.head = this.tail = new ListNode(null, val, null);
-  // Not empty list.
+  const node = new ListNode(null, val, this.head);
+
+  if (!this.head) {
+    this.tail = node;
   } else {
-    this.head = new ListNode(null, val, this.head);
-    this.head.next.prev = this.head;
+    this.head.prev = node;
   }
+
+  this.head = node
 
   return this.head;
 };
 
 // Delete at the head of the list.
 List.prototype.shift = function () {
-  // Empty list
-  if (this.head === null && this.tail === null) {
+  if (!this.head) {
     return null;
-  // Not empty list.
-  } else {
-    var head = this.head;
-    this.head = this.head.next;
-    head.delete();
-    return head.val;
   }
+
+  const node = this.head;
+  this.head = this.head.next;
+
+  if (!head) {
+    this.tail = null;
+  } else {
+    this.head.prev = null;
+  }
+
+  return node.val;
 };
 
 // Insert at the end of the list.
 List.prototype.push = function (val) {
-  // Empty list
-  if (this.head === null && this.tail === null) {
-    this.head = this.tail = new ListNode(null, val, null);
-  // Not empty list.
+  const node = new ListNode(this.tail, val, null);
+
+  if (!tail) {
+    this.head = node;
   } else {
-    this.tail = new ListNode(this.tail, val, null);
-    this.tail.prev.next = this.tail;
+    this.tail.next = node;
   }
+
+  this.tail = node;
 
   return this.tail;
 };
 
 // Delete at the end of the list.
 List.prototype.pop = function () {
-  // Empty list
-  if (this.head === null && this.tail === null) {
+  if (!this.tail) {
     return null;
-  // Not empty list.
-  } else {
-    var tail = this.tail;
-    this.tail = this.tail.prev;
-    tail.delete();
-    return tail.val;
   }
-};
+
+  const node = this.tail;
+  this.tail = this.tail.prev;
+
+  if (!this.tail) {
+    this.head = null;
+  } else {
+    this.tail.next = null;
+  }
+
+  return node.val;
+
+}
 
 // Move a node to the front of the List
 List.prototype.moveToFront = function (node) {
   if (node === this.tail) {
     this.pop();
-  } else if (node === this.head) {
+  } else if (node !== this.head) {
+    if (node.prev) {
+      node.prev.next = node.next;
+    }
+
+    if (node.next) {
+      node.next.prev = node.prev;
+    }
+  } else {
     return;
-  } else {
-    node.delete();
   }
 
-  node.prev = node.next = null;
+  node.prev = null;
+  node.next = this.head;
 
-  // Don't delegate to shift, since we want to keep the same
-  // object.
-
-  // Empty list
-  if (this.head === null && this.tail === null) {
-    this.head = this.tail = node;
-  // At least one node.
-  } else {
+  if (this.head) {
     this.head.prev = node;
-    node.next = this.head;
-    this.head = node;
   }
+
+  this.head = node;
 };
 
 // Move a node to the end of the List
@@ -147,27 +186,24 @@ List.prototype.moveToEnd = function (node) {
   } else if (node === this.tail) {
     return;
   } else {
-    node.delete();
+    if (node.prev) {
+      node.prev.next = node.next;
+    }
+
+    if (node.next) {
+      node.next.prev = node.prev;
+    }
+
+    this.push(node.val)
   }
 
   // Don't delegate to push, since we want to keep the same
   // object.
 
-  node.prev = node.next = null;
-
-  // Empty list
-  if (this.head === null && this.tail === null) {
-    this.head = this.tail = node;
-  // At least one node.
-  } else {
-    this.tail.next = node;
-    node.prev = this.tail;
-    this.tail = node;
-  }
 };
 
-ListNode.prototype.delete = function () {
-  if (this.prev) { this.prev.next = this.next; }
-  if (this.next) { this.next.prev = this.prev; }
-};
-
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports.LRUCache = LRUCache;
+} else {
+  window.LRUCache = LRUCache;
+}
