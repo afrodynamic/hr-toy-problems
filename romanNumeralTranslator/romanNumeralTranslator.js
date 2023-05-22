@@ -28,6 +28,31 @@ var DIGIT_VALUES = {
 };
 
 var translateRomanNumeral = function(romanNumeral) {
-// TODO: Implement me!
+  if (typeof romanNumeral !== 'string') {
+    return null;
+  }
 
+  let result = 0;
+  let prevValue = 0;
+
+  for (let i = romanNumeral.length - 1; i >= 0; i--) {
+    const currentDigit = romanNumeral[i];
+    const currentValue = DIGIT_VALUES[currentDigit];
+
+    if (currentValue >= prevValue) {
+      result += currentValue;
+    } else {
+      result -= currentValue;
+    }
+
+    prevValue = currentValue;
+  }
+
+  return result;
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports.translateRomanNumeral = translateRomanNumeral;
+} else {
+  window.translateRomanNumeral = translateRomanNumeral;
+}
