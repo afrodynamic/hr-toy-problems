@@ -12,9 +12,12 @@ var largestProductOfThree = function(array) {
     return null;
   }
 
-  array.sort((a, b) => b - a);
+  array.sort((a, b) => a - b);
 
-  return array[0] * array[1] * array[2];
+  const positiveProduct = array[0] * array[1] * array[array.length - 1];
+  const negativeProduct = array[array.length - 1] * array[array.length - 2] * array[array.length - 3]
+
+  return Math.max(positiveProduct, negativeProduct)
 };
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
