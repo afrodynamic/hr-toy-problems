@@ -7,7 +7,18 @@
  * Extra credit: Make your function handle negative numbers.
  */
 
-
 var largestProductOfThree = function(array) {
-  // TODO: everything
+  if (array.length < 3) {
+    return null;
+  }
+
+  array.sort((a, b) => b - a);
+
+  return array[0] * array[1] * array[2];
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports.largestProductOfThree = largestProductOfThree;
+} else {
+  window.largestProductOfThree = largestProductOfThree;
+}
