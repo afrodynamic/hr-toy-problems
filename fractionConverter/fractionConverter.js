@@ -22,15 +22,14 @@ var toFraction = function(number) {
       return a;
     }
 
-    return getGCD(b, a % b);
-  }
+    return getGCD(b, Math.floor(a % b));
+  };
 
-  const gcd = getGCD(number, 1);
+  const denominator = 1e10;
+  const numerator = Math.round(number * denominator);
+  const gcd = getGCD(numerator, denominator);
 
-  const numerator = number / gcd;
-  const denominator = 1 / gcd;
-
-  return `${numerator}/${denominator}`;
+  return `${numerator / gcd}/${denominator / gcd}`;
 };
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {

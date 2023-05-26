@@ -6,6 +6,7 @@ describe('toFraction', () => {
     expect(toFraction(0.5)).toBe('1/2');
     expect(toFraction(1.5)).toBe('3/2');
     expect(toFraction(1.75)).toBe('7/4');
+    expect(toFraction(0.88)).toBe('22/25');
   });
 
   it('returns the fraction representation for a whole number', () => {
