@@ -11,4 +11,23 @@
 
 // Solved in O(n) time with O(1) memory
 var sumArray = function(array) {
+  if (array.length === 0) {
+    return 0;
+  }
+
+  var maxSum = array[0];
+  var currentSum = array[0];
+
+  for (var i = 1; i < array.length; i++) {
+    currentSum = Math.max(array[i], currentSum + array[i]);
+    maxSum = Math.max(maxSum, currentSum);
+  }
+
+  return maxSum;
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = sumArray;
+} else {
+  window.toFraction = sumArray;
+}
