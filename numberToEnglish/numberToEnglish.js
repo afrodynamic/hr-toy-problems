@@ -75,44 +75,46 @@ const convertHundreds = (number) => {
 }
 
 const convertDecimalToEnglish = (decimalPart) => {
-  let wholeDecimal = parseInt(decimalPart, 10);
-  let decimalStr = convertHundreds(wholeDecimal);
+  let integerPart = parseInt(decimalPart, 10);
+  let decimalStr = convertHundreds(integerPart);
   let denominator = numbersToPlace[Math.pow(10, decimalPart.length)];
   return decimalStr + ' ' + denominator + 'ths';
 }
 
-const toEnglish = function (number) {
+Number.prototype.toEnglish = function () {
+  let number = this.valueOf();
+
   if (!isFinite(number)) {
     return 'Invalid number';
   }
 
   if (number < 0) {
-    return 'Negative ' + toEnglish(-number);
+    return 'Negative ' + Number.prototype.toEnglish.call(-number);
   }
 
   let decimalPart = '';
+  let strParts = [];
 
   if (Math.floor(number) !== number) {
     [number, decimalPart] = number.toString().split('.');
     number = parseInt(number);
   }
 
-  let str = '';
-  let place = 1;
-
   if (number === 0) {
     if (decimalPart !== '') {
-      str = 'zero and ' + convertDecimalToEnglish(decimalPart);
+      strParts.push('zero and ' + convertDecimalToEnglish(decimalPart));
     } else {
-      str = 'zero';
+      strParts.push('zero');
     }
   } else {
+    let place = 1;
+
     while (number > 0) {
       let mod = number % 1000;
 
       if (mod > 0) {
         let placeStr = numbersToPlace[place] ? numbersToPlace[place] + ' ' : '';
-        str = convertHundreds(mod) + ' ' + placeStr + str;
+        strParts.unshift(convertHundreds(mod) + ' ' + placeStr);
       }
 
       number = Math.floor(number / 1000);
@@ -120,19 +122,15 @@ const toEnglish = function (number) {
     }
 
     if (decimalPart !== '') {
-      str += 'and ' + convertDecimalToEnglish(decimalPart);
+      strParts.push('and ' + convertDecimalToEnglish(decimalPart));
     }
   }
 
-  return str.trim();
-}
-
-Number.prototype.toEnglish = function () {
-  return toEnglish(this);
+  return strParts.join('').trim();
 };
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-  module.exports = toEnglish;
+  module.exports = Number;
 } else {
-  window.toEnglish = toEnglish;
+  window.Number = Number;
 }
