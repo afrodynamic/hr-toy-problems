@@ -77,8 +77,24 @@ const convertHundreds = (number) => {
 const convertDecimalToEnglish = (decimalPart) => {
   let integerPart = parseInt(decimalPart, 10);
   let decimalStr = convertHundreds(integerPart);
-  let denominator = numbersToPlace[Math.pow(10, decimalPart.length)];
-  return decimalStr + ' ' + denominator + 'ths';
+
+  let base;
+  if (decimalPart.length === 1) {
+    base = 'tenth';
+  } else if (decimalPart.length === 2) {
+    base = 'hundredth';
+  } else if (decimalPart.length === 3) {
+    base = 'thousandth';
+  } else if (decimalPart.length === 4) {
+    base = 'ten-thousandth';
+  } else if (decimalPart.length === 5) {
+    base = 'hundred-thousandth';
+  } else if (decimalPart.length === 6) {
+    base = 'millionth';
+  }
+
+  let suffix = integerPart === 1 ? '' : 's';
+  return decimalStr + ' ' + base + suffix;
 }
 
 Number.prototype.toEnglish = function () {
@@ -102,7 +118,7 @@ Number.prototype.toEnglish = function () {
 
   if (number === 0) {
     if (decimalPart !== '') {
-      strParts.push('zero and ' + convertDecimalToEnglish(decimalPart));
+      strParts.push(convertDecimalToEnglish(decimalPart));
     } else {
       strParts.push('zero');
     }

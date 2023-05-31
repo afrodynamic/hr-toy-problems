@@ -29,8 +29,10 @@ describe('toEnglish', () => {
 
   it('returns the correct English representation for decimals', () => {
     expect((150043.273).toEnglish()).toBe('one hundred fifty thousand forty-three and two hundred seventy-three thousandths');
-    expect((0.5).toEnglish()).toBe('zero and five tenths');
-    expect((0.123).toEnglish()).toBe('zero and one hundred twenty-three thousandths');
+    expect((0.5).toEnglish()).toBe('five tenths');
+    expect((0.123).toEnglish()).toBe('one hundred twenty-three thousandths');
+    expect((0.001).toEnglish()).toBe('one thousandth');
+    expect((3.0625).toEnglish()).toBe('three and six hundred twenty-five ten-thousandths');
   });
 
   it('returns "Invalid number" for non-finite numbers', () => {
@@ -40,7 +42,7 @@ describe('toEnglish', () => {
 
   it('returns the correct English representation for negative numbers', () => {
     expect((-7).toEnglish()).toBe('Negative seven');
-    expect((-0.5).toEnglish()).toBe('Negative zero and five tenths');
+    expect((-0.5).toEnglish()).toBe('Negative five tenths');
     expect((-123.456).toEnglish()).toBe('Negative one hundred twenty-three and four hundred fifty-six thousandths');
   });
 });
