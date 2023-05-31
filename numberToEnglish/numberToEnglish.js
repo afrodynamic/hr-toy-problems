@@ -43,6 +43,7 @@ var numbersToWords = {
   90: 'ninety',
 };
 var numbersToPlace = {
+  1: '',
   10: 'ten',
   100: 'hundred',
   1000: 'thousand',
@@ -53,6 +54,85 @@ var numbersToPlace = {
   1000000000000000000: 'quintillion',
 };
 
+const convertHundreds = (number) => {
+  let str = '';
+
+  if (number > 99) {
+    str += numbersToWords[Math.floor(number / 100)] + ' hundred ';
+    number %= 100;
+  }
+
+  if (number > 19) {
+    str += numbersToWords[Math.floor(number / 10) * 10] + (number % 10 !== 0 ? '-' : ' ');
+    number %= 10;
+  }
+
+  if (number > 0) {
+    str += numbersToWords[number] + ' ';
+  }
+
+  return str.trim();
+}
+
+const convertDecimalToEnglish = (decimalPart) => {
+  let wholeDecimal = parseInt(decimalPart, 10);
+  let decimalStr = convertHundreds(wholeDecimal);
+  let denominator = numbersToPlace[Math.pow(10, decimalPart.length)];
+  return decimalStr + ' ' + denominator + 'ths';
+}
+
+const toEnglish = function (number) {
+  if (!isFinite(number)) {
+    return 'Invalid number';
+  }
+
+  if (number < 0) {
+    return 'Negative ' + toEnglish(-number);
+  }
+
+  let decimalPart = '';
+
+  if (Math.floor(number) !== number) {
+    [number, decimalPart] = number.toString().split('.');
+    number = parseInt(number);
+  }
+
+  let str = '';
+  let place = 1;
+
+  if (number === 0) {
+    if (decimalPart !== '') {
+      str = 'zero and ' + convertDecimalToEnglish(decimalPart);
+    } else {
+      str = 'zero';
+    }
+  } else {
+    while (number > 0) {
+      let mod = number % 1000;
+
+      if (mod > 0) {
+        let placeStr = numbersToPlace[place] ? numbersToPlace[place] + ' ' : '';
+        str = convertHundreds(mod) + ' ' + placeStr + str;
+      }
+
+      number = Math.floor(number / 1000);
+      place *= 1000;
+    }
+
+    if (decimalPart !== '') {
+      str += 'and ' + convertDecimalToEnglish(decimalPart);
+    }
+  }
+
+  return str.trim();
+}
+
 Number.prototype.toEnglish = function () {
-  // return my value as english words
+  return toEnglish(this);
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = toEnglish;
+} else {
+  window.toEnglish = toEnglish;
+}
