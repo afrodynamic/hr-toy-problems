@@ -15,6 +15,52 @@
  */
 
 var spiralTraversal = function(matrix) {
+  var result = [];
 
-  // TODO: Implement me!
+  if (matrix.length === 0) {
+    return result;
+  }
+
+  var topRow = 0;
+  var bottomRow = matrix.length - 1;
+  var leftCol = 0;
+  var rightCol = matrix[0].length - 1;
+
+  while (topRow <= bottomRow && leftCol <= rightCol) {
+    for (var col = leftCol; col <= rightCol; col++) {
+      result.push(matrix[topRow][col]);
+    }
+
+    topRow++;
+
+    for (var row = topRow; row <= bottomRow; row++) {
+      result.push(matrix[row][rightCol]);
+    }
+
+    rightCol--;
+
+    if (topRow <= bottomRow) {
+      for (var col = rightCol; col >= leftCol; col--) {
+        result.push(matrix[bottomRow][col]);
+      }
+
+      bottomRow--;
+    }
+
+    if (leftCol <= rightCol) {
+      for (var row = bottomRow; row >= topRow; row--) {
+        result.push(matrix[row][leftCol]);
+      }
+
+      leftCol++;
+    }
+  }
+
+  return result;
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = spiralTraversal;
+} else {
+  window.spiralTraversal = spiralTraversal;
+}
