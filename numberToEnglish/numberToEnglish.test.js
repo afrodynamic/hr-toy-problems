@@ -33,6 +33,7 @@ describe('toEnglish', () => {
     expect((0.123).toEnglish()).toBe('one hundred twenty-three thousandths');
     expect((0.001).toEnglish()).toBe('one thousandth');
     expect((3.0625).toEnglish()).toBe('three and six hundred twenty-five ten-thousandths');
+    expect((503.0013427734375).toEnglish()).toBe('five hundred three and thirteen billion four hundred twenty-seven million seven hundred thirty-four thousand three hundred seventy-five ten-trillionths');
   });
 
   it('returns "Invalid number" for non-finite numbers', () => {

@@ -75,27 +75,48 @@ const convertHundreds = (number) => {
 }
 
 const convertDecimalToEnglish = (decimalPart) => {
-  let integerPart = parseInt(decimalPart, 10);
-  let decimalStr = convertHundreds(integerPart);
+  let str = '';
+  let decimalNumber = parseInt(decimalPart, 10);
+  let place = 1;
+  let mod;
 
-  let base;
-  if (decimalPart.length === 1) {
-    base = 'tenth';
-  } else if (decimalPart.length === 2) {
-    base = 'hundredth';
-  } else if (decimalPart.length === 3) {
-    base = 'thousandth';
-  } else if (decimalPart.length === 4) {
-    base = 'ten-thousandth';
-  } else if (decimalPart.length === 5) {
-    base = 'hundred-thousandth';
-  } else if (decimalPart.length === 6) {
-    base = 'millionth';
+  while (decimalNumber > 0) {
+    mod = decimalNumber % 1000;
+
+    if (mod > 0) {
+      let placeStr = numbersToPlace[place] ? numbersToPlace[place] + ' ' : '';
+      str = convertHundreds(mod) + ' ' + placeStr + str;
+    }
+
+    decimalNumber = Math.floor(decimalNumber / 1000);
+    place *= 1000;
   }
 
-  let suffix = integerPart === 1 ? '' : 's';
-  return decimalStr + ' ' + base + suffix;
-}
+  const places = [
+    '',
+    'tenth',
+    'hundredth',
+    'thousandth',
+    'ten-thousandth',
+    'hundred-thousandth',
+    'millionth',
+    'ten-millionth',
+    'hundred-millionth',
+    'billionth',
+    'ten-billionth',
+    'hundred-billionth',
+    'trillionth',
+    'ten-trillionth',
+    'hundred-trillionth',
+    'quadrillionth',
+    'ten-quadrillionth',
+    'hundred-quadrillionth',
+    'quintillionth',
+  ];
+
+  const placeName = mod === 1 ? places[decimalPart.length] : places[decimalPart.length] + 's';
+  return str.trim() + ' ' + placeName;
+};
 
 Number.prototype.toEnglish = function () {
   let number = this.valueOf();
