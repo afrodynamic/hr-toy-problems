@@ -38,9 +38,20 @@ Tree.prototype.addChild = function(child) {
   *  3.) between my grandma and my grandma -> my grandma
   *  4.) between me and a potato -> null
   */
-Tree.prototype.getClosestCommonAncestor = function(/*...*/
-) {
-  // TODO: implement me!
+Tree.prototype.getClosestCommonAncestor = function(node1, node2) {
+  const path1 = this.getAncestorPath(node1);
+  const path2 = this.getAncestorPath(node2);
+
+  if (!path1 || !path2) {
+    return null;
+  }
+
+  let i = 0;
+  while (path1[i] && path2[i] && path1[i] === path2[i]) {
+    i++;
+  }
+
+  return path1[i - 1] || null;
 };
 
 /**
@@ -51,9 +62,20 @@ Tree.prototype.getClosestCommonAncestor = function(/*...*/
   * 3.) me.getAncestorPath(me) -> [me]
   * 4.) grandma.getAncestorPath(H R Giger) -> null
   */
-Tree.prototype.getAncestorPath = function(/*...*/
-) {
-  // TODO: implement me!
+Tree.prototype.getAncestorPath = function(node) {
+  if (this === node) {
+    return [this];
+  } else {
+    for (let i = 0; i < this.children.length; i++) {
+      const pathFromChild = this.children[i].getAncestorPath(node);
+
+      if (pathFromChild) {
+        return [this].concat(pathFromChild);
+      }
+    }
+  }
+
+  return null;
 };
 
 /**
@@ -87,3 +109,9 @@ Tree.prototype.removeChild = function(child) {
     throw new Error('That node is not an immediate child of this tree');
   }
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = Tree;
+} else {
+  window.Tree = Tree;
+}
