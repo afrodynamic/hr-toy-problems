@@ -6,37 +6,34 @@
  */
 
 function countIslands(mapStr) {
-  if (!mapStr || mapStr.length === 0 || mapStr[0].length === 0) {
-    return 0;
-  }
+  const mapArray = mapStr.split('\n').map(row => row.split(''));
 
-  const rows = mapStr.length;
-  const cols = mapStr[0].length;
-  let count = 0;
+  const numRows = mapArray.length;
+  const numCols = mapArray[0].length;
 
-  const dfs = (x, y) => {
-    if (x < 0 || y < 0 || x >= rows || y >= cols || mapStr[x][y] === '0') {
-      return;
+  let numberOfIslands = 0;
+
+  const dfs = (row, col) => {
+    if (row >= 0 && col >= 0 && row < numRows && col < numCols && mapArray[row][col] === '0') {
+      mapArray[row][col] = '.';
+
+      dfs(row - 1, col);
+      dfs(row + 1, col);
+      dfs(row, col - 1);
+      dfs(row, col + 1);
     }
-
-    mapStr[x][y] = '0';
-
-    dfs(x - 1, y);
-    dfs(x + 1, y);
-    dfs(x, y - 1);
-    dfs(x, y + 1);
   }
 
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      if (mapStr[i][j] === '.') {
-        count++;
-        dfs(i, j);
+  for (let row = 0; row < numRows; row++) {
+    for (let col = 0; col < numCols; col++) {
+      if (mapArray[row][col] === '0') {
+        dfs(row, col);
+        numberOfIslands++;
       }
     }
   }
 
-  return count;
+  return numberOfIslands;
 }
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
