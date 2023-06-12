@@ -35,7 +35,29 @@
  *
  */
 
-
 var characterFrequency = function(string) {
+  let frequency = {};
+
+  for(let i = 0; i < string.length; i++) {
+    let char = string[i];
+    frequency[char] = (frequency[char] || 0) + 1;
+  }
+
+  let result = Object.keys(frequency).map(char => [char, frequency[char]]);
+
+  result.sort((a, b) => {
+    if(a[1] === b[1]) {
+      return a[0].localeCompare(b[0]);
+    } else {
+      return b[1] - a[1];
+    }
+  });
+
   return result;
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = characterFrequency;
+} else {
+  window.characterFrequency = characterFrequency;
+}
