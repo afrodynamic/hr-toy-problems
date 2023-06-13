@@ -20,9 +20,25 @@
  *
  */
 
-var nthFibonacci = function (n) {
-  // TODO: implement me!
+var nthFibonacci = function (n, memo = {}) {
+  if (n === 0) {
+    return 0;
+  }
+
+  if (n === 1) {
+    return 1;
+  }
+
+  if (memo[n]) {
+    return memo[n];
+  }
+
+  memo[n] = nthFibonacci(n - 1, memo) + nthFibonacci(n - 2, memo);
+  return memo[n];
 };
 
-
-
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = nthFibonacci;
+} else {
+  window.nthFibonacci = nthFibonacci;
+}
