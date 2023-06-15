@@ -14,11 +14,35 @@
  */
 
 var longestRun = function (string) {
-  // TODO: Your code here!
+  if (string.length === 0) {
+    return null;
+  }
+
+  let longestRunStart = 0;
+  let longestRunLength = 1;
+
+  let currentRunStart = 0;
+
+  for (let i = 1; i < string.length; i++) {
+    if (string[i] !== string[i-1]) {
+      let currentRunLength = i - currentRunStart;
+      if (currentRunLength > longestRunLength) {
+        longestRunStart = currentRunStart;
+        longestRunLength = currentRunLength;
+      }
+      currentRunStart = i;
+    }
+  }
+
+  let currentRunLength = string.length - currentRunStart;
+  if (currentRunLength > longestRunLength) {
+    longestRunStart = currentRunStart;
+    longestRunLength = currentRunLength;
+  }
+
+  return [longestRunStart, longestRunStart + longestRunLength - 1];
 };
 
-// If you need a random string generator, use this!
-// (you wont need this function for your solution but it may help with testing)
 var randomString = function (len) {
   var text = '';
   var possible = 'abcdefghijklmnopqrstuvwxyz';
@@ -29,3 +53,11 @@ var randomString = function (len) {
 
   return text;
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports.longestRun = longestRun;
+  module.exports.randomString = randomString;
+} else {
+  window.longestRun = longestRun;
+  window.randomString = randomString;
+}
