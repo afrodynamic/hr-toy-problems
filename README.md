@@ -1,85 +1,53 @@
 # Toy Problems
 
-Welcome to Toy Problems. This repository will be updated every morning with a new
-code challenge.
+## Table of Contents
 
-Feel free to use Google to aid you in solving the coding challenges!
+* [Toy Problems](#toy-problems)
+  * [Table of Contents](#table-of-contents)
+  * [Description](#description)
+  * [Usage](#usage)
+    * [Requirements](#requirements)
+    * [Setup and Running](#setup-and-running)
 
-## Using this Repository
+## Description
 
-You'll find each day's toy problem in its own folder.
+This project is a collection of programming challenges completed during Hack Reactor's 12-week Software Engineering Immersive program.
 
-## Getting a Copy of the Repo
+All solutions are optimally written in JavaScript and have an associated `Jest` test suite.
 
-If you haven't already, fork the repository on GitHub and clone your newly created
-repo down to your computer.
+## Usage
 
-## ES2015+ support
+### Requirements
 
-Spectator supports ES2015+ by transpiling files with [Babel](https://babeljs.io/). Any JavaScript feature included in the [latest preset](https://babeljs.io/docs/plugins/preset-latest/) can be used in a toy problem. The tradeoff for this support is that error messages can sometimes be a bit more obscure and/or line numbers in the stack trace don't map precisely to their original line numbers.
+You will need the following dependencies to run this project:
 
-If this is not an acceptable tradeoff, you can write only ES5 code create a `spectator.json` file in the root of the problem directory that looks like this:
+* `node` / `npm`, to manage project dependencies ([download](https://nodejs.org/en/download))
+* `git`, for cloning the project ([download](https://git-scm.com/downloads))
 
-```js
-{
-  "babel": false
-}
-```
+### Setup and Running
 
-## Submitting your Solutions
+To use this project (running tests), please follow these steps:
 
-**VERY IMPORTANT: Before submitting your solutions, find and fix all syntax errors**
+1. Clone the repository to your local machine
 
-Solutions are submitted via [Pull Request](https://help.github.com/articles/using-pull-requests). Follow these steps:
+   ```shell
+   git clone https://github.com/afrodynamic/rfe2303-toy-problems.git
+   ```
 
-1. From **your fork**, select `Pull Requests` and then create a `New pull request`.
-2. STOP. *Before* you `Click to create a pull request for this comparison` you must **adjust the target branch** (aka `base branch`) to be your username. Once changed, the pull-request heading should look like this:
+2. Navigate to the cloned repository directory
 
-  > hackreactor:username ... username:master
+   ```shell
+    cd rfe2303-toy-problems
+    ```
 
-3. Click `Send pull request`
+3. Install the project's dependencies using `npm install` in the root of the project directory
 
-## Updating the Repository
+   ```shell
+   npm install
+   ```
 
-Every morning, when a new toy problem is added, you'll need to sync your version of
-the repo with hackreactor's. Git won't automatically pull in upstream changes for
-you; it trusts that you'll pull them in as needed. Do so by giving Git a reference
-to hackreactor's version of the repo:
+4. Run the tests using `npm test`
 
-    git remote add upstream https://github.com/hackreactor/xxxx##-toy-problems.git
-
-  > Be sure to substitue `xxxx##` with your actual cohort prefix where xxxx is your campus and ## is your cohort number (ex: hrsf50)
-
-After you've done that, updating your repo is as simple as running the following:
-
-    git checkout master       // Your fork's master branch
-    git pull upstream master  // Your class's master branch
-
-This will check out your branch and tell git to grab any changes made to the main
-repository and merge them into your branch.
-
-## Resolving Spectator's Unmergeable Pull Request
-
-You may encounter a scenario where Spectator will not merge your pull request. This
-often happens as a result of your upstream branch becoming out of sync with your
-local copy. To resolve this problem, run:
-
-    git pull upstream <your-branch-name>
-
-Resolve any conflicts, merge, commit and push. You will then be able to submit a
-Pull Request that will get correctly merged.
-
-## TDD, writing your own test
-
-We have provided a testing setup for your toy problems with initial
-boiler plate to get you started. You'll need to run `npm install` to
-install [Jest](https://jestjs.io/) before running your tests.
-
-All the tests for this repo are defined in `tp.spec.js`. Once you're ready,
-review the package.json scripts section to determine how to run the Jest test
-suites defined in `tp.spec.js`.
-
-Optional but Highly Encouraged: Add tests to tp.spec.js for each of your toy
-problems.  Make sure to review the test example in `exampleModule.js` along with
-related tests in `tp.spec.js` to help you get started.
-**Pay special attention to the conditional logic around the `module` object in the `exampleModule.js` file.**
+   ```shell
+   npm test
+   ```
